@@ -15,7 +15,8 @@ void CustomSystemModelDelegate::paint(
 	const QModelIndex& index
 ) const
 {
-	if (!index.isValid()) {
+	if (!index.isValid())
+	{
 		return;
 	}
 
@@ -23,12 +24,14 @@ void CustomSystemModelDelegate::paint(
 	const bool hasSize = !index.data(Qt::DisplayRole).toString().isEmpty();
 
 	// size already calculated and not in progress => use parent paint.
-	if (hasSize && !isInProgress) {
+	if (hasSize && !isInProgress)
+	{
 		QStyledItemDelegate::paint(painter, option, index);
 		return;
 	}
 
-	ButtonState state{
+	ButtonState state
+	{
 		static_cast<bool>(option.state & QStyle::State_MouseOver),
 		static_cast<bool>(option.state & QStyle::State_Selected),
 		isInProgress
@@ -66,13 +69,18 @@ void CustomSystemModelDelegate::_paintButtonBorder(
 	QColor borderColor;
 	qreal borderWidth;
 
-	if (state.isSelected) {
+	if (state.isSelected)
+	{
 		borderColor = kBorderPressed;
 		borderWidth = 2.0;
-	} else if (state.isHovered) {
+	}
+	else if (state.isHovered)
+	{
 		borderColor = kBorderHover;
 		borderWidth = 1;
-	} else {
+	}
+	else
+	{
 		borderColor = kBorderDefault;
 		borderWidth = 1;
 	}

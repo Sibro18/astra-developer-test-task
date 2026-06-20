@@ -27,9 +27,6 @@ private:
 	QHash<QString, QString> _sizeCache;
 	QSet<QString> _inProgress;
 	QThreadPool* _threadPool;
-
-	qint64 _calculateDirSize(const QString& path) const;
-	QString _formatSize(qint64 bytes) const;
 };
 
 #endif // CUSTOM_SYSTEM_MODEL_H

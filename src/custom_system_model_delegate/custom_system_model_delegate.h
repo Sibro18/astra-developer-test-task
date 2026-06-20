@@ -16,7 +16,8 @@ public:
 		const QModelIndex& index
 	) const override;
 private:
-	struct ButtonState {
+	struct ButtonState
+	{
 		bool isHovered;
 		bool isSelected;
 		bool isInProgress;

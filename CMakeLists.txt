@@ -14,6 +14,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets)
 
+add_subdirectory(src/utils)
+
+option(BUILD_TESTS "Build unit tests" OFF)
+
 set(PROJECT_SOURCES
         src/main.cpp
         src/main_window/main_window.cpp
@@ -30,8 +34,16 @@ add_executable(astra_developer_test_task
 	${PROJECT_SOURCES}
 )
 
-target_link_libraries(astra_developer_test_task PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(astra_developer_test_task PRIVATE
+	utils
+	Qt${QT_VERSION_MAJOR}::Widgets
+)
 
 install(TARGETS astra_developer_test_task
 	RUNTIME DESTINATION bin
 )
+
+if(BUILD_TESTS)
+	enable_testing()
+	add_subdirectory(tests)
+endif()

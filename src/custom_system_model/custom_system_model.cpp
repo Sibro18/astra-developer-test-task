@@ -1,8 +1,9 @@
 #include <QFileInfo>
 #include <QDir>
-#include <QLocale>
 
 #include "custom_system_model.h"
+#include "utils/format_utils/format_utils.h"
+#include "utils/file_utils/file_utils.h"
 
 CustomSystemModel::CustomSystemModel(QThreadPool* threadPool, QObject* parent)
 	: QFileSystemModel(parent),
@@ -93,11 +94,11 @@ void CustomSystemModel::calculateAndSetDirSize(const QModelIndex& index)
 			return;
 		}
 
-		qint64 size = _calculateDirSize(path);
+		qint64 size = FileUtils::calculateDirSize(path);
 		{
 			QWriteLocker lock(&_cacheMutex);
 			_inProgress.remove(path);
-			_sizeCache[path] = _formatSize(size);
+			_sizeCache[path] = FormatUtils::formatSize(size);
 		}
 
 		QMetaObject::invokeMethod(this, [this, persistentIndex]() {
@@ -107,61 +108,4 @@ void CustomSystemModel::calculateAndSetDirSize(const QModelIndex& index)
 			}
 		}, Qt::QueuedConnection);
 	});
-}
-
-qint64 CustomSystemModel::_calculateDirSize(const QString& path) const
-{
-	qint64 totalSize = 0;
-	QVector<QString> dirsToVisit;
-	dirsToVisit.reserve(256);
-
-	dirsToVisit.push_back(path);
-
-	while (!dirsToVisit.isEmpty())
-	{
-		const QString currentDir = dirsToVisit.takeLast();
-
-		QDirIterator it(currentDir,
-			QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden,
-			QDirIterator::NoIteratorFlags
-		);
-
-		while (it.hasNext())
-		{
-			it.next();
-			const QFileInfo info = it.fileInfo();
-
-			// ignore symlinks.
-			if (info.isSymLink())
-			{
-				continue;
-			}
-
-			if (info.isDir())
-			{
-				dirsToVisit.push_back(info.filePath());
-			}
-			else
-			{
-				totalSize += info.size();
-			}
-		}
-	}
-
-	return totalSize;
-}
-
-QString CustomSystemModel::_formatSize(qint64 bytes) const
-{
-	int precision = 2;
-	if (bytes < 1024)
-	{
-		precision = 0;
-	}
-	else if (bytes < 1024LL * 1024 * 1024)
-	{
-		precision = 1;
-	}
-
-	return QLocale::system().formattedDataSize(bytes, precision, QLocale::DataSizeIecFormat);
 }

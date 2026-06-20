@@ -1,0 +1,30 @@
+#ifndef TEST_FILE_UTILS_H
+#define TEST_FILE_UTILS_H
+
+#include <QtTest>
+#include <QTemporaryDir>
+#include <QFile>
+#include <QDir>
+#include "utils/file_utils/file_utils.h"
+
+class TestFileUtils : public QObject
+{
+	Q_OBJECT
+
+private slots:
+	void testEmptyDirectory();
+	void testSingleFile();
+	void testMultipleFiles();
+	void testNestedDirectories();
+	void testDeepNesting();
+	void testHiddenFiles();
+	void testIgnoresSymlinks();
+	void testNonExistentDirectory();
+	void testMixedContent();
+
+private:
+	// Вспомогательный метод для создания файла заданного размера
+	bool _createFileWithSize(const QString& path, qint64 size);
+};
+
+#endif // TEST_FILE_UTILS_H
