@@ -67,7 +67,6 @@ void MainWindow::_setupUi()
 	_treeView->setAnimated(false);
 	_treeView->setIndentation(kTreeViewIndentation);
 	_treeView->setSortingEnabled(true);
-	_treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
 	_resetRootIndex();
 
 

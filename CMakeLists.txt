@@ -26,9 +26,12 @@ set(PROJECT_SOURCES
 		src/custom_sort_filter_proxy_model/custom_sort_filter_proxy_model.cpp
 )
 
-
 add_executable(astra_developer_test_task
 	${PROJECT_SOURCES}
 )
 
 target_link_libraries(astra_developer_test_task PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+install(TARGETS astra_developer_test_task
+	RUNTIME DESTINATION bin
+)
