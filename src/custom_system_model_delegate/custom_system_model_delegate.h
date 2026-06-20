@@ -7,7 +7,7 @@
 
 class CustomSystemModelDelegate : public QStyledItemDelegate
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	explicit CustomSystemModelDelegate(QObject* parent = nullptr);
 	void paint(

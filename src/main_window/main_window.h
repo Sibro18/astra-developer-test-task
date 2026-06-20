@@ -14,11 +14,11 @@
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	explicit MainWindow(QWidget *parent = nullptr);
 private slots:
-    void onTreeViewItemClicked(const QModelIndex& index);
+	void onTreeViewItemClicked(const QModelIndex& index);
 	void onLineEditTextChanged(const QString& text);
 private:
 	QVBoxLayout* _layout;
@@ -27,7 +27,7 @@ private:
 	QThreadPool* _thPool;
 	CustomSortFilterProxyModel* _proxyModel;
 	CustomSystemModelDelegate* _delegate;
-    CustomSystemModel* _fsModel;
+	CustomSystemModel* _fsModel;
 	const QString _rootPath;
 
 	void _setupUi();
